@@ -4,6 +4,7 @@ import time
 from sklearn.linear_model import RidgeCV
 from sklearn.model_selection import KFold, cross_val_predict
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+import matplotlib.pyplot as plt    
 
 # ====== TIMER SETUP ======
 start_time = time.time()
@@ -46,3 +47,16 @@ print(f"Improved Simple Model (Ridge) Performance:\n  RMSE: {rmse:.2f} km\n  MAE
 
 # ====== Final Training & Saving ======
 log(f"Model saved; total elapsed time: {time.time() - start_time:.1f}s")
+
+log("Plotting Actual vs Predicted EV Range...")
+min_val = min(y.min(), cv_preds.min())
+max_val = max(y.max(), cv_preds.max())
+
+plt.figure()
+plt.scatter(y, cv_preds)
+plt.plot([min_val, max_val], [min_val, max_val])
+plt.xlabel("Actual Electric Range (km)")
+plt.ylabel("Predicted Electric Range (km)")
+plt.title("RidgeCV: Actual vs Predicted EV Range")
+plt.tight_layout()
+plt.show()

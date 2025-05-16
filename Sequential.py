@@ -8,6 +8,8 @@ import tensorflow as tf
 from tensorflow.keras.models import Sequential # type: ignore
 from tensorflow.keras.layers import Dense, Dropout # type: ignore
 from tensorflow.keras.callbacks import EarlyStopping # type: ignore
+import matplotlib.pyplot as plt
+
 
 # ====== TIMER SETUP ======
 start_time = time.time()
@@ -81,3 +83,15 @@ print(f"Deep Model Performance on Test Set:\n  RMSE: {rmse:.2f} km\n  MAE: {mae:
 
 # ======= Total Elapsed Time ========
 log(f"Total elapsed time: {time.time() - start_time:.1f}s")
+
+min_val = min(y_test.min(), y_pred.min())
+max_val = max(y_test.max(), y_pred.max())
+
+plt.figure()
+plt.scatter(y_test, y_pred)
+plt.plot([min_val, max_val], [min_val, max_val])
+plt.xlabel("Actual Electric Range (km)")
+plt.ylabel("Predicted Electric Range (km)")
+plt.title("Deep Model: Actual vs Predicted EV Range")
+plt.tight_layout()
+plt.show()

@@ -5,6 +5,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import KFold
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+import matplotlib.pyplot as plt
 
 # ====== Load Data & Timer ======
 start_time = time.time()
@@ -56,3 +57,14 @@ print(f"Hybrid Model Performance:\n  RMSE: {rmse:.2f} km\n  MAE: {mae:.2f} km\n 
 
 # ======= Total Elapsed Time ========
 log(f"Total elapsed time: {time.time() - start_time:.1f}s")
+
+min_val = min(y.min(), hybrid_pred.min())
+max_val = max(y.max(), hybrid_pred.max())
+
+plt.figure()
+plt.scatter(y, hybrid_pred)
+plt.plot([min_val, max_val], [min_val, max_val])
+plt.xlabel("Actual Electric Range (km)")
+plt.ylabel("Predicted Electric Range (km)")
+plt.title("Actual vs Predicted EV Range")
+plt.show()
